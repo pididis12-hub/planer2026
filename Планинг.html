@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Планинг на 2026 год</title>
+    <title>Общий планинг на 2026 год</title>
     <style>
         * {
             margin: 0;
@@ -16,16 +16,74 @@
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             padding: 20px;
             color: #333;
+            min-height: 100vh;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         
         h1 {
-            text-align: center;
-            margin-bottom: 30px;
             color: #2c3e50;
             font-size: 2.5rem;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 10px;
         }
         
+        .description {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .user-info {
+            margin-top: 15px;
+            padding: 10px;
+            background: #e8f5e9;
+            border-radius: 6px;
+            display: inline-block;
+        }
+        
+        .admin-panel {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .admin-panel h3 {
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        
+        .admin-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .admin-btn {
+            padding: 10px 15px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .admin-btn:hover {
+            background: #2980b9;
+        }
+        
+        /* Стили календаря */
         .year-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -77,19 +135,47 @@
         .day {
             aspect-ratio: 1;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             background-color: #f8f9fa;
             border-radius: 6px;
             font-size: 0.85rem;
             transition: all 0.2s ease;
             cursor: pointer;
             border: 1px solid #eaeaea;
+            padding: 3px;
+            overflow: hidden;
+            position: relative;
         }
         
         .day:hover {
             background-color: #e3f2fd;
             transform: scale(1.05);
+        }
+        
+        .day-number {
+            font-weight: bold;
+            margin-bottom: 2px;
+        }
+        
+        .day-note {
+            font-size: 0.7rem;
+            color: #555;
+            text-align: center;
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            padding: 0 2px;
+        }
+        
+        .day-author {
+            font-size: 0.6rem;
+            color: #888;
+            position: absolute;
+            bottom: 2px;
+            left: 2px;
         }
         
         .empty-day {
@@ -117,6 +203,139 @@
             font-weight: bold;
         }
         
+        .has-note::after {
+            content: "";
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            width: 8px;
+            height: 8px;
+            background-color: #4caf50;
+            border-radius: 50%;
+        }
+        
+        /* Модальное окно */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 25px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            color: #2c3e50;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #7f8c8d;
+        }
+        
+        .close-btn:hover {
+            color: #e74c3c;
+        }
+        
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            resize: vertical;
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+        
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.2s;
+        }
+        
+        .btn-save {
+            background-color: #4caf50;
+            color: white;
+        }
+        
+        .btn-save:hover {
+            background-color: #45a049;
+        }
+        
+        .btn-cancel {
+            background-color: #f1f1f1;
+            color: #333;
+        }
+        
+        .btn-cancel:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .btn-delete {
+            background-color: #ff5252;
+            color: white;
+        }
+        
+        .btn-delete:hover {
+            background-color: #ff0000;
+        }
+        
+        .logout-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        
+        .logout-btn:hover {
+            background: #c0392b;
+        }
+        
+        .sync-status {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+        
         @media (max-width: 768px) {
             .year-container {
                 grid-template-columns: 1fr;
@@ -126,96 +345,403 @@
                 height: auto;
                 min-height: 350px;
             }
+            
+            .admin-buttons {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Планинг на 2026 год</h1>
-    <div class="year-container" id="yearContainer"></div>
+    <!-- Экран входа -->
+    <div id="loginContainer" class="login-container" style="max-width: 400px; margin: 50px auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); text-align: center;">
+        <h2>Вход в общий планинг</h2>
+        <input type="text" id="userNameInput" class="login-input" placeholder="Ваше имя" style="width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem;">
+        <button id="enterBtn" class="login-btn" style="width: 100%; padding: 12px; background: #4caf50; color: white; border: none; border-radius: 6px; font-size: 1rem; cursor: pointer; margin-top: 10px;">Войти</button>
+        <div style="margin-top: 20px; font-size: 0.9rem; color: #7f8c8d;">
+            Введите ваше имя для идентификации в общем планинге
+        </div>
+    </div>
+
+    <!-- Основное приложение -->
+    <div id="appContainer" style="display: none;">
+        <header>
+            <h1>Общий планинг на 2026 год</h1>
+            <p class="description">Все изменения видны всем пользователям в реальном времени. Зелёная точка означает заметку, а маленький текст внизу - автора заметки.</p>
+            <div class="user-info">
+                Вы вошли как: <strong id="currentUserName"></strong>
+                <button class="logout-btn" id="logoutBtn">Выйти</button>
+            </div>
+            <div class="sync-status" id="syncStatus">Данные синхронизированы</div>
+            
+            <!-- Панель администратора -->
+            <div class="admin-panel" id="adminPanel" style="display: none;">
+                <h3>Панель администратора</h3>
+                <div class="admin-buttons">
+                    <button class="admin-btn" id="clearAllBtn">Очистить все заметки</button>
+                    <button class="admin-btn" id="exportDataBtn">Экспорт данных</button>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Контейнер календаря -->
+        <div class="year-container" id="yearContainer"></div>
+        
+        <!-- Модальное окно для заметок -->
+        <div class="modal" id="noteModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title" id="modalDate">Добавить заметку</h2>
+                    <button class="close-btn" id="closeModal">&times;</button>
+                </div>
+                <textarea id="noteText" placeholder="Введите вашу заметку здесь..."></textarea>
+                <div class="modal-actions">
+                    <button class="btn btn-delete" id="deleteNote">Удалить</button>
+                    <button class="btn btn-cancel" id="cancelNote">Отмена</button>
+                    <button class="btn btn-save" id="saveNote">Сохранить</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
-        // Названия месяцев
+        // Константы для хранения данных
+        const SHARED_NOTES_KEY = 'shared_planner_notes_2026';
+        const ADMIN_USERS = ['admin', 'руководитель', 'manager']; // Список администраторов
+        
+        // Глобальные переменные
+        let sharedNotes = {};
+        let currentUser = null;
+        let isAdmin = false;
+        let currentDate = null;
+        let syncInterval = null;
+        
+        // Названия месяцев и дней
         const monthNames = [
             "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
             "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
         ];
         
-        // Названия дней недели
         const dayNames = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
+
+        // Инициализация при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeData();
+            setupEventListeners();
+            checkExistingUser();
+        });
         
-        // Получаем контейнер для года
-        const yearContainer = document.getElementById('yearContainer');
+        // Инициализация данных
+        function initializeData() {
+            // Загрузка общих данных из localStorage
+            const savedNotes = localStorage.getItem(SHARED_NOTES_KEY);
+            if (savedNotes) {
+                sharedNotes = JSON.parse(savedNotes);
+            } else {
+                // Инициализация пустой структуры
+                sharedNotes = {
+                    notes: {},
+                    lastUpdate: new Date().toISOString(),
+                    version: 1
+                };
+                saveSharedData();
+            }
+        }
         
-        // Создаем календарь для каждого месяца 2026 года
-        for (let month = 0; month < 12; month++) {
-            // Создаем контейнер для месяца
-            const monthContainer = document.createElement('div');
-            monthContainer.className = 'month-container';
+        // Сохранение общих данных
+        function saveSharedData() {
+            sharedNotes.lastUpdate = new Date().toISOString();
+            localStorage.setItem(SHARED_NOTES_KEY, JSON.stringify(sharedNotes));
+            updateSyncStatus('Данные сохранены');
+        }
+        
+        // Проверка существующего пользователя
+        function checkExistingUser() {
+            const savedUser = sessionStorage.getItem('current_user');
+            if (savedUser) {
+                currentUser = savedUser;
+                isAdmin = ADMIN_USERS.includes(currentUser.toLowerCase());
+                showApp();
+            }
+        }
+        
+        // Настройка обработчиков событий
+        function setupEventListeners() {
+            // Вход
+            document.getElementById('enterBtn').addEventListener('click', handleEnter);
+            document.getElementById('userNameInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') handleEnter();
+            });
             
-            // Добавляем заголовок месяца
-            const monthHeader = document.createElement('div');
-            monthHeader.className = 'month-header';
-            monthHeader.textContent = monthNames[month];
-            monthContainer.appendChild(monthHeader);
+            // Выход
+            document.getElementById('logoutBtn').addEventListener('click', handleLogout);
             
-            // Создаем сетку дней
-            const daysGrid = document.createElement('div');
-            daysGrid.className = 'days-grid';
+            // Админ-панель
+            document.getElementById('clearAllBtn').addEventListener('click', clearAllNotes);
+            document.getElementById('exportDataBtn').addEventListener('click', exportData);
             
-            // Добавляем заголовки дней недели
-            for (let dayName of dayNames) {
-                const dayHeader = document.createElement('div');
-                dayHeader.className = 'day-header';
-                dayHeader.textContent = dayName;
-                daysGrid.appendChild(dayHeader);
+            // Модальное окно
+            document.getElementById('closeModal').addEventListener('click', closeModal);
+            document.getElementById('cancelNote').addEventListener('click', closeModal);
+            document.getElementById('saveNote').addEventListener('click', saveNote);
+            document.getElementById('deleteNote').addEventListener('click', deleteNote);
+            
+            // Закрытие модального окна при клике вне его
+            document.getElementById('noteModal').addEventListener('click', function(e) {
+                if (e.target === this) closeModal();
+            });
+        }
+        
+        // Обработка входа
+        function handleEnter() {
+            const userNameInput = document.getElementById('userNameInput');
+            const userName = userNameInput.value.trim();
+            
+            if (userName) {
+                currentUser = userName;
+                isAdmin = ADMIN_USERS.includes(currentUser.toLowerCase());
+                sessionStorage.setItem('current_user', currentUser);
+                userNameInput.value = '';
+                showApp();
+                
+                // Запускаем синхронизацию
+                startSync();
+            }
+        }
+        
+        // Обработка выхода
+        function handleLogout() {
+            currentUser = null;
+            isAdmin = false;
+            sessionStorage.removeItem('current_user');
+            document.getElementById('appContainer').style.display = 'none';
+            document.getElementById('loginContainer').style.display = 'block';
+            
+            // Останавливаем синхронизацию
+            stopSync();
+        }
+        
+        // Показать основное приложение
+        function showApp() {
+            document.getElementById('loginContainer').style.display = 'none';
+            document.getElementById('appContainer').style.display = 'block';
+            document.getElementById('currentUserName').textContent = currentUser;
+            
+            if (isAdmin) {
+                document.getElementById('adminPanel').style.display = 'block';
             }
             
-            // Получаем первый день месяца и количество дней в месяце
-            const firstDay = new Date(2026, month, 1);
-            const lastDay = new Date(2026, month + 1, 0);
-            const daysInMonth = lastDay.getDate();
-            
-            // Определяем день недели для первого дня месяца (0 - воскресенье, 1 - понедельник, ...)
-            let firstDayOfWeek = firstDay.getDay();
-            // Преобразуем воскресенье (0) в 6 для нашей сетки (пн-вс)
-            firstDayOfWeek = firstDayOfWeek === 0 ? 6 : firstDayOfWeek - 1;
-            
-            // Добавляем пустые ячейки для дней до первого дня месяца
-            for (let i = 0; i < firstDayOfWeek; i++) {
-                const emptyDay = document.createElement('div');
-                emptyDay.className = 'day empty-day';
-                daysGrid.appendChild(emptyDay);
+            initializeCalendar();
+        }
+        
+        // Запуск синхронизации
+        function startSync() {
+            // Проверяем изменения каждые 3 секунды
+            syncInterval = setInterval(checkForUpdates, 3000);
+        }
+        
+        // Остановка синхронизации
+        function stopSync() {
+            if (syncInterval) {
+                clearInterval(syncInterval);
+                syncInterval = null;
             }
+        }
+        
+        // Проверка обновлений
+        function checkForUpdates() {
+            const savedData = localStorage.getItem(SHARED_NOTES_KEY);
+            if (savedData) {
+                const parsedData = JSON.parse(savedData);
+                
+                // Если данные обновились, перезагружаем календарь
+                if (parsedData.lastUpdate !== sharedNotes.lastUpdate) {
+                    sharedNotes = parsedData;
+                    initializeCalendar();
+                    updateSyncStatus('Данные обновлены');
+                    
+                    // Через 2 секунды возвращаем статус "синхронизировано"
+                    setTimeout(() => updateSyncStatus('Данные синхронизированы'), 2000);
+                }
+            }
+        }
+        
+        // Обновление статуса синхронизации
+        function updateSyncStatus(message) {
+            document.getElementById('syncStatus').textContent = message;
+        }
+        
+        // Инициализация календаря
+        function initializeCalendar() {
+            const yearContainer = document.getElementById('yearContainer');
+            yearContainer.innerHTML = '';
             
-            // Добавляем дни месяца
-            for (let day = 1; day <= daysInMonth; day++) {
-                const dayElement = document.createElement('div');
-                dayElement.className = 'day';
-                dayElement.textContent = day;
+            for (let month = 0; month < 12; month++) {
+                const monthContainer = document.createElement('div');
+                monthContainer.className = 'month-container';
                 
-                // Определяем выходные дни (суббота и воскресенье)
-                const currentDate = new Date(2026, month, day);
-                const dayOfWeek = currentDate.getDay();
+                const monthHeader = document.createElement('div');
+                monthHeader.className = 'month-header';
+                monthHeader.textContent = monthNames[month];
+                monthContainer.appendChild(monthHeader);
                 
-                if (dayOfWeek === 0 || dayOfWeek === 6) {
-                    dayElement.classList.add('weekend');
+                const daysGrid = document.createElement('div');
+                daysGrid.className = 'days-grid';
+                
+                // Добавляем заголовки дней недели
+                for (let dayName of dayNames) {
+                    const dayHeader = document.createElement('div');
+                    dayHeader.className = 'day-header';
+                    dayHeader.textContent = dayName;
+                    daysGrid.appendChild(dayHeader);
                 }
                 
-                // Проверяем, является ли день сегодняшним (для демонстрации)
-                const today = new Date();
-                if (today.getFullYear() === 2026 && today.getMonth() === month && today.getDate() === day) {
-                    dayElement.classList.add('current-day');
+                // Получаем данные о месяце
+                const firstDay = new Date(2026, month, 1);
+                const lastDay = new Date(2026, month + 1, 0);
+                const daysInMonth = lastDay.getDate();
+                
+                // Определяем день недели для первого дня месяца
+                let firstDayOfWeek = firstDay.getDay();
+                firstDayOfWeek = firstDayOfWeek === 0 ? 6 : firstDayOfWeek - 1;
+                
+                // Добавляем пустые ячейки для дней до первого дня месяца
+                for (let i = 0; i < firstDayOfWeek; i++) {
+                    const emptyDay = document.createElement('div');
+                    emptyDay.className = 'day empty-day';
+                    daysGrid.appendChild(emptyDay);
                 }
                 
-                daysGrid.appendChild(dayElement);
+                // Добавляем дни месяца
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const dayElement = document.createElement('div');
+                    dayElement.className = 'day';
+                    
+                    const dayNumber = document.createElement('div');
+                    dayNumber.className = 'day-number';
+                    dayNumber.textContent = day;
+                    dayElement.appendChild(dayNumber);
+                    
+                    const dayNote = document.createElement('div');
+                    dayNote.className = 'day-note';
+                    
+                    // Проверяем, есть ли заметка для этого дня
+                    const dateKey = `2026-${month+1}-${day}`;
+                    if (sharedNotes.notes[dateKey]) {
+                        dayNote.textContent = sharedNotes.notes[dateKey].text;
+                        dayElement.classList.add('has-note');
+                        
+                        // Добавляем автора заметки
+                        const dayAuthor = document.createElement('div');
+                        dayAuthor.className = 'day-author';
+                        dayAuthor.textContent = sharedNotes.notes[dateKey].author;
+                        dayElement.appendChild(dayAuthor);
+                    }
+                    
+                    dayElement.appendChild(dayNote);
+                    
+                    // Определяем выходные дни
+                    const currentDate = new Date(2026, month, day);
+                    const dayOfWeek = currentDate.getDay();
+                    
+                    if (dayOfWeek === 0 || dayOfWeek === 6) {
+                        dayElement.classList.add('weekend');
+                    }
+                    
+                    // Проверяем, является ли день сегодняшним (для демонстрации)
+                    const today = new Date();
+                    if (today.getFullYear() === 2026 && today.getMonth() === month && today.getDate() === day) {
+                        dayElement.classList.add('current-day');
+                    }
+                    
+                    // Добавляем обработчик клика для открытия модального окна
+                    dayElement.addEventListener('click', () => openNoteModal(month, day));
+                    
+                    daysGrid.appendChild(dayElement);
+                }
+                
+                monthContainer.appendChild(daysGrid);
+                yearContainer.appendChild(monthContainer);
+            }
+        }
+        
+        // Открытие модального окна для заметки
+        function openNoteModal(month, day) {
+            currentDate = `2026-${month+1}-${day}`;
+            document.getElementById('modalDate').textContent = `Заметка на ${day} ${monthNames[month]} 2026`;
+            
+            // Загружаем существующую заметку, если есть
+            if (sharedNotes.notes[currentDate]) {
+                document.getElementById('noteText').value = sharedNotes.notes[currentDate].text;
+            } else {
+                document.getElementById('noteText').value = '';
             }
             
-            // Добавляем сетку дней в контейнер месяца
-            monthContainer.appendChild(daysGrid);
-            
-            // Добавляем контейнер месяца в годовой контейнер
-            yearContainer.appendChild(monthContainer);
+            document.getElementById('noteModal').style.display = 'flex';
+        }
+        
+        // Закрытие модального окна
+        function closeModal() {
+            document.getElementById('noteModal').style.display = 'none';
+        }
+        
+        // Сохранение заметки
+        function saveNote() {
+            if (currentDate) {
+                const noteText = document.getElementById('noteText').value.trim();
+                
+                if (noteText) {
+                    sharedNotes.notes[currentDate] = {
+                        text: noteText,
+                        author: currentUser,
+                        created: new Date().toISOString(),
+                        updated: new Date().toISOString()
+                    };
+                } else {
+                    // Если текст пустой, удаляем заметку
+                    delete sharedNotes.notes[currentDate];
+                }
+                
+                saveSharedData();
+                initializeCalendar();
+                closeModal();
+            }
+        }
+        
+        // Удаление заметки
+        function deleteNote() {
+            if (currentDate && sharedNotes.notes[currentDate]) {
+                delete sharedNotes.notes[currentDate];
+                saveSharedData();
+                initializeCalendar();
+                closeModal();
+            }
+        }
+        
+        // Очистка всех заметок (только для администраторов)
+        function clearAllNotes() {
+            if (confirm('Вы уверены, что хотите удалить ВСЕ заметки? Это действие нельзя отменить.')) {
+                sharedNotes.notes = {};
+                saveSharedData();
+                initializeCalendar();
+                alert('Все заметки удалены');
+            }
+        }
+        
+        // Экспорт данных
+        function exportData() {
+            const dataStr = JSON.stringify(sharedNotes, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'shared_planner_data_2026.json';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
         }
     </script>
 </body>
 </html>
+```
