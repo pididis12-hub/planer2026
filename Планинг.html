@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Планинг на 2026 год</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            color: #333;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2c3e50;
+            font-size: 2.5rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .year-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        
+        .month-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            padding: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            height: 400px;
+        }
+        
+        .month-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        
+        .month-header {
+            text-align: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eaeaea;
+            color: #2c3e50;
+            font-size: 1.5rem;
+        }
+        
+        .days-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            flex-grow: 1;
+        }
+        
+        .day-header {
+            text-align: center;
+            font-weight: bold;
+            color: #7f8c8d;
+            font-size: 0.8rem;
+            padding: 5px 0;
+        }
+        
+        .day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f8f9fa;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: 1px solid #eaeaea;
+        }
+        
+        .day:hover {
+            background-color: #e3f2fd;
+            transform: scale(1.05);
+        }
+        
+        .empty-day {
+            background-color: transparent;
+            border: none;
+            cursor: default;
+        }
+        
+        .empty-day:hover {
+            background-color: transparent;
+            transform: none;
+        }
+        
+        .weekend {
+            background-color: #fff3e0;
+        }
+        
+        .weekend:hover {
+            background-color: #ffecb3;
+        }
+        
+        .current-day {
+            background-color: #4fc3f7;
+            color: white;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            .year-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .month-container {
+                height: auto;
+                min-height: 350px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Планинг на 2026 год</h1>
+    <div class="year-container" id="yearContainer"></div>
+
+    <script>
+        // Названия месяцев
+        const monthNames = [
+            "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
+            "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
+        ];
+        
+        // Названия дней недели
+        const dayNames = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
+        
+        // Получаем контейнер для года
+        const yearContainer = document.getElementById('yearContainer');
+        
+        // Создаем календарь для каждого месяца 2026 года
+        for (let month = 0; month < 12; month++) {
+            // Создаем контейнер для месяца
+            const monthContainer = document.createElement('div');
+            monthContainer.className = 'month-container';
+            
+            // Добавляем заголовок месяца
+            const monthHeader = document.createElement('div');
+            monthHeader.className = 'month-header';
+            monthHeader.textContent = monthNames[month];
+            monthContainer.appendChild(monthHeader);
+            
+            // Создаем сетку дней
+            const daysGrid = document.createElement('div');
+            daysGrid.className = 'days-grid';
+            
+            // Добавляем заголовки дней недели
+            for (let dayName of dayNames) {
+                const dayHeader = document.createElement('div');
+                dayHeader.className = 'day-header';
+                dayHeader.textContent = dayName;
+                daysGrid.appendChild(dayHeader);
+            }
+            
+            // Получаем первый день месяца и количество дней в месяце
+            const firstDay = new Date(2026, month, 1);
+            const lastDay = new Date(2026, month + 1, 0);
+            const daysInMonth = lastDay.getDate();
+            
+            // Определяем день недели для первого дня месяца (0 - воскресенье, 1 - понедельник, ...)
+            let firstDayOfWeek = firstDay.getDay();
+            // Преобразуем воскресенье (0) в 6 для нашей сетки (пн-вс)
+            firstDayOfWeek = firstDayOfWeek === 0 ? 6 : firstDayOfWeek - 1;
+            
+            // Добавляем пустые ячейки для дней до первого дня месяца
+            for (let i = 0; i < firstDayOfWeek; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'day empty-day';
+                daysGrid.appendChild(emptyDay);
+            }
+            
+            // Добавляем дни месяца
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'day';
+                dayElement.textContent = day;
+                
+                // Определяем выходные дни (суббота и воскресенье)
+                const currentDate = new Date(2026, month, day);
+                const dayOfWeek = currentDate.getDay();
+                
+                if (dayOfWeek === 0 || dayOfWeek === 6) {
+                    dayElement.classList.add('weekend');
+                }
+                
+                // Проверяем, является ли день сегодняшним (для демонстрации)
+                const today = new Date();
+                if (today.getFullYear() === 2026 && today.getMonth() === month && today.getDate() === day) {
+                    dayElement.classList.add('current-day');
+                }
+                
+                daysGrid.appendChild(dayElement);
+            }
+            
+            // Добавляем сетку дней в контейнер месяца
+            monthContainer.appendChild(daysGrid);
+            
+            // Добавляем контейнер месяца в годовой контейнер
+            yearContainer.appendChild(monthContainer);
+        }
+    </script>
+</body>
+</html>
