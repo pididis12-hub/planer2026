@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Защищенный планинг на 2026 год</title>
+    <title>Планинг на 2026 год</title>
     <style>
         * {
             margin: 0;
@@ -16,150 +16,16 @@
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             padding: 20px;
             color: #333;
-            min-height: 100vh;
-        }
-        
-        /* Стили авторизации */
-        .login-container {
-            max-width: 400px;
-            margin: 100px auto;
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            text-align: center;
-        }
-        
-        .login-container h2 {
-            margin-bottom: 20px;
-            color: #2c3e50;
-        }
-        
-        .login-input {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 1rem;
-        }
-        
-        .login-btn {
-            width: 100%;
-            padding: 12px;
-            background: #4caf50;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 1rem;
-            cursor: pointer;
-            margin-top: 10px;
-            transition: background 0.3s;
-        }
-        
-        .login-btn:hover {
-            background: #45a049;
-        }
-        
-        .error-message {
-            color: #e74c3c;
-            margin-top: 10px;
-            display: none;
-        }
-        
-        /* Стили основного приложения */
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         
         h1 {
+            text-align: center;
+            margin-bottom: 30px;
             color: #2c3e50;
             font-size: 2.5rem;
-            margin-bottom: 10px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
         }
         
-        .description {
-            color: #7f8c8d;
-            font-size: 1.1rem;
-            max-width: 800px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
-        
-        .user-info {
-            margin-top: 15px;
-            padding: 10px;
-            background: #e8f5e9;
-            border-radius: 6px;
-            display: inline-block;
-        }
-        
-        .admin-panel {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        
-        .admin-panel h3 {
-            margin-bottom: 15px;
-            color: #2c3e50;
-        }
-        
-        .admin-buttons {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        
-        .admin-btn {
-            padding: 10px 15px;
-            background: #3498db;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        
-        .admin-btn:hover {
-            background: #2980b9;
-        }
-        
-        .user-list {
-            margin-top: 20px;
-            border-top: 1px solid #eee;
-            padding-top: 15px;
-        }
-        
-        .user-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .remove-user {
-            background: #ff5252;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        
-        .remove-user:hover {
-            background: #ff0000;
-        }
-        
-        /* Стили календаря */
         .year-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -211,39 +77,19 @@
         .day {
             aspect-ratio: 1;
             display: flex;
-            flex-direction: column;
             align-items: center;
-            justify-content: flex-start;
+            justify-content: center;
             background-color: #f8f9fa;
             border-radius: 6px;
             font-size: 0.85rem;
             transition: all 0.2s ease;
             cursor: pointer;
             border: 1px solid #eaeaea;
-            padding: 3px;
-            overflow: hidden;
-            position: relative;
         }
         
         .day:hover {
             background-color: #e3f2fd;
             transform: scale(1.05);
-        }
-        
-        .day-number {
-            font-weight: bold;
-            margin-bottom: 2px;
-        }
-        
-        .day-note {
-            font-size: 0.7rem;
-            color: #555;
-            text-align: center;
-            width: 100%;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            padding: 0 2px;
         }
         
         .empty-day {
@@ -271,133 +117,6 @@
             font-weight: bold;
         }
         
-        .has-note::after {
-            content: "";
-            position: absolute;
-            bottom: 2px;
-            right: 2px;
-            width: 8px;
-            height: 8px;
-            background-color: #4caf50;
-            border-radius: 50%;
-        }
-        
-        /* Модальное окно */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            z-index: 100;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .modal-content {
-            background-color: white;
-            padding: 25px;
-            border-radius: 12px;
-            width: 90%;
-            max-width: 500px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-        
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .modal-title {
-            font-size: 1.5rem;
-            color: #2c3e50;
-        }
-        
-        .close-btn {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #7f8c8d;
-        }
-        
-        .close-btn:hover {
-            color: #e74c3c;
-        }
-        
-        textarea {
-            width: 100%;
-            height: 150px;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            resize: vertical;
-            font-size: 1rem;
-            margin-bottom: 20px;
-        }
-        
-        .modal-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-        }
-        
-        .btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: background-color 0.2s;
-        }
-        
-        .btn-save {
-            background-color: #4caf50;
-            color: white;
-        }
-        
-        .btn-save:hover {
-            background-color: #45a049;
-        }
-        
-        .btn-cancel {
-            background-color: #f1f1f1;
-            color: #333;
-        }
-        
-        .btn-cancel:hover {
-            background-color: #e0e0e0;
-        }
-        
-        .btn-delete {
-            background-color: #ff5252;
-            color: white;
-        }
-        
-        .btn-delete:hover {
-            background-color: #ff0000;
-        }
-        
-        .logout-btn {
-            background: #e74c3c;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 6px;
-            cursor: pointer;
-            margin-left: 10px;
-        }
-        
-        .logout-btn:hover {
-            background: #c0392b;
-        }
-        
         @media (max-width: 768px) {
             .year-container {
                 grid-template-columns: 1fr;
@@ -407,427 +126,96 @@
                 height: auto;
                 min-height: 350px;
             }
-            
-            .admin-buttons {
-                flex-direction: column;
-            }
         }
     </style>
 </head>
 <body>
-    <!-- Экран авторизации -->
-    <div id="loginContainer" class="login-container">
-        <h2>Доступ к планингу 2026</h2>
-        <input type="password" id="passwordInput" class="login-input" placeholder="Введите пароль">
-        <button id="loginBtn" class="login-btn">Войти</button>
-        <div id="errorMessage" class="error-message">Неверный пароль</div>
-        <div style="margin-top: 20px; font-size: 0.9rem; color: #7f8c8d;">
-            По умолчанию пароль администратора: <strong>admin2026</strong>
-        </div>
-    </div>
-
-    <!-- Основное приложение -->
-    <div id="appContainer" style="display: none;">
-        <header>
-            <h1>Защищенный планинг на 2026 год</h1>
-            <p class="description">Только авторизованные пользователи могут редактировать заметки. Зелёная точка в правом нижнем углу дня означает, что к нему прикреплена заметка.</p>
-            <div class="user-info">
-                Вы вошли как: <strong id="currentUserName"></strong>
-                <button class="logout-btn" id="logoutBtn">Выйти</button>
-            </div>
-            
-            <!-- Панель администратора -->
-            <div class="admin-panel" id="adminPanel" style="display: none;">
-                <h3>Панель администратора</h3>
-                <div class="admin-buttons">
-                    <button class="admin-btn" id="manageUsersBtn">Управление пользователями</button>
-                    <button class="admin-btn" id="changePasswordBtn">Сменить пароль администратора</button>
-                    <button class="admin-btn" id="exportDataBtn">Экспорт данных</button>
-                </div>
-                
-                <div class="user-list" id="userList" style="display: none; margin-top: 15px;">
-                    <h4>Авторизованные пользователи:</h4>
-                    <div id="usersContainer"></div>
-                    <button class="admin-btn" id="addUserBtn" style="margin-top: 10px;">Добавить пользователя</button>
-                </div>
-            </div>
-        </header>
-        
-        <!-- Контейнер календаря -->
-        <div class="year-container" id="yearContainer"></div>
-        
-        <!-- Модальное окно для заметок -->
-        <div class="modal" id="noteModal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2 class="modal-title" id="modalDate">Добавить заметку</h2>
-                    <button class="close-btn" id="closeModal">&times;</button>
-                </div>
-                <textarea id="noteText" placeholder="Введите вашу заметку здесь..."></textarea>
-                <div class="modal-actions">
-                    <button class="btn btn-delete" id="deleteNote">Удалить</button>
-                    <button class="btn btn-cancel" id="cancelNote">Отмена</button>
-                    <button class="btn btn-save" id="saveNote">Сохранить</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <h1>Планинг на 2026 год</h1>
+    <div class="year-container" id="yearContainer"></div>
 
     <script>
-        // Константы для хранения данных
-        const AUTHORIZED_USERS_KEY = 'planner_authorized_users';
-        const ADMIN_PASSWORD_KEY = 'planner_admin_password';
-        const NOTES_DATA_KEY = 'planner_notes_data';
-        const DEFAULT_ADMIN_PASSWORD = 'admin2026';
-        
-        // Глобальные переменные
-        let authorizedUsers = [];
-        let adminPassword = '';
-        let notes = {};
-        let currentUser = null;
-        let isAdmin = false;
-        let currentDate = null;
-        
-        // Названия месяцев и дней
+        // Названия месяцев
         const monthNames = [
             "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
             "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
         ];
         
+        // Названия дней недели
         const dayNames = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
-
-        // Инициализация при загрузке
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeData();
-            setupEventListeners();
-            checkAuth();
-        });
         
-        // Инициализация данных
-        function initializeData() {
-            // Загрузка данных из localStorage
-            authorizedUsers = JSON.parse(localStorage.getItem(AUTHORIZED_USERS_KEY)) || [];
-            adminPassword = localStorage.getItem(ADMIN_PASSWORD_KEY) || DEFAULT_ADMIN_PASSWORD;
-            notes = JSON.parse(localStorage.getItem(NOTES_DATA_KEY)) || {};
-            
-            // Если пользователей нет, добавляем администратора
-            if (authorizedUsers.length === 0) {
-                authorizedUsers.push('admin');
-                localStorage.setItem(AUTHORIZED_USERS_KEY, JSON.stringify(authorizedUsers));
-            }
-        }
+        // Получаем контейнер для года
+        const yearContainer = document.getElementById('yearContainer');
         
-        // Настройка обработчиков событий
-        function setupEventListeners() {
-            // Авторизация
-            document.getElementById('loginBtn').addEventListener('click', handleLogin);
-            document.getElementById('passwordInput').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') handleLogin();
-            });
+        // Создаем календарь для каждого месяца 2026 года
+        for (let month = 0; month < 12; month++) {
+            // Создаем контейнер для месяца
+            const monthContainer = document.createElement('div');
+            monthContainer.className = 'month-container';
             
-            // Выход
-            document.getElementById('logoutBtn').addEventListener('click', handleLogout);
+            // Добавляем заголовок месяца
+            const monthHeader = document.createElement('div');
+            monthHeader.className = 'month-header';
+            monthHeader.textContent = monthNames[month];
+            monthContainer.appendChild(monthHeader);
             
-            // Админ-панель
-            document.getElementById('manageUsersBtn').addEventListener('click', toggleUserList);
-            document.getElementById('addUserBtn').addEventListener('click', addNewUser);
-            document.getElementById('changePasswordBtn').addEventListener('click', changeAdminPassword);
-            document.getElementById('exportDataBtn').addEventListener('click', exportData);
+            // Создаем сетку дней
+            const daysGrid = document.createElement('div');
+            daysGrid.className = 'days-grid';
             
-            // Модальное окно
-            document.getElementById('closeModal').addEventListener('click', closeModal);
-            document.getElementById('cancelNote').addEventListener('click', closeModal);
-            document.getElementById('saveNote').addEventListener('click', saveNote);
-            document.getElementById('deleteNote').addEventListener('click', deleteNote);
-            
-            // Закрытие модального окна при клике вне его
-            document.getElementById('noteModal').addEventListener('click', function(e) {
-                if (e.target === this) closeModal();
-            });
-        }
-        
-        // Проверка авторизации
-        function checkAuth() {
-            const savedUser = sessionStorage.getItem('current_user');
-            if (savedUser && authorizedUsers.includes(savedUser)) {
-                currentUser = savedUser;
-                isAdmin = currentUser === 'admin';
-                showApp();
-            }
-        }
-        
-        // Обработка входа
-        function handleLogin() {
-            const passwordInput = document.getElementById('passwordInput');
-            const password = passwordInput.value.trim();
-            const errorMessage = document.getElementById('errorMessage');
-            
-            if (password === adminPassword) {
-                currentUser = 'admin';
-                isAdmin = true;
-                sessionStorage.setItem('current_user', 'admin');
-                passwordInput.value = '';
-                showApp();
-            } else if (authorizedUsers.includes(password)) {
-                currentUser = password;
-                isAdmin = false;
-                sessionStorage.setItem('current_user', password);
-                passwordInput.value = '';
-                showApp();
-            } else {
-                errorMessage.style.display = 'block';
-                setTimeout(() => {
-                    errorMessage.style.display = 'none';
-                }, 3000);
-            }
-        }
-        
-        // Обработка выхода
-        function handleLogout() {
-            currentUser = null;
-            isAdmin = false;
-            sessionStorage.removeItem('current_user');
-            document.getElementById('appContainer').style.display = 'none';
-            document.getElementById('loginContainer').style.display = 'block';
-        }
-        
-        // Показать основное приложение
-        function showApp() {
-            document.getElementById('loginContainer').style.display = 'none';
-            document.getElementById('appContainer').style.display = 'block';
-            document.getElementById('currentUserName').textContent = isAdmin ? 'Администратор' : 'Пользователь';
-            
-            if (isAdmin) {
-                document.getElementById('adminPanel').style.display = 'block';
+            // Добавляем заголовки дней недели
+            for (let dayName of dayNames) {
+                const dayHeader = document.createElement('div');
+                dayHeader.className = 'day-header';
+                dayHeader.textContent = dayName;
+                daysGrid.appendChild(dayHeader);
             }
             
-            initializeCalendar();
-        }
-        
-        // Инициализация календаря
-        function initializeCalendar() {
-            const yearContainer = document.getElementById('yearContainer');
-            yearContainer.innerHTML = '';
+            // Получаем первый день месяца и количество дней в месяце
+            const firstDay = new Date(2026, month, 1);
+            const lastDay = new Date(2026, month + 1, 0);
+            const daysInMonth = lastDay.getDate();
             
-            for (let month = 0; month < 12; month++) {
-                const monthContainer = document.createElement('div');
-                monthContainer.className = 'month-container';
+            // Определяем день недели для первого дня месяца (0 - воскресенье, 1 - понедельник, ...)
+            let firstDayOfWeek = firstDay.getDay();
+            // Преобразуем воскресенье (0) в 6 для нашей сетки (пн-вс)
+            firstDayOfWeek = firstDayOfWeek === 0 ? 6 : firstDayOfWeek - 1;
+            
+            // Добавляем пустые ячейки для дней до первого дня месяца
+            for (let i = 0; i < firstDayOfWeek; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'day empty-day';
+                daysGrid.appendChild(emptyDay);
+            }
+            
+            // Добавляем дни месяца
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'day';
+                dayElement.textContent = day;
                 
-                const monthHeader = document.createElement('div');
-                monthHeader.className = 'month-header';
-                monthHeader.textContent = monthNames[month];
-                monthContainer.appendChild(monthHeader);
+                // Определяем выходные дни (суббота и воскресенье)
+                const currentDate = new Date(2026, month, day);
+                const dayOfWeek = currentDate.getDay();
                 
-                const daysGrid = document.createElement('div');
-                daysGrid.className = 'days-grid';
-                
-                // Добавляем заголовки дней недели
-                for (let dayName of dayNames) {
-                    const dayHeader = document.createElement('div');
-                    dayHeader.className = 'day-header';
-                    dayHeader.textContent = dayName;
-                    daysGrid.appendChild(dayHeader);
-                }
-                // Получаем данные о месяце
-                const firstDay = new Date(2026, month, 1);
-                const lastDay = new Date(2026, month + 1, 0);
-                const daysInMonth = lastDay.getDate();
-                
-                // Определяем день недели для первого дня месяца
-                let firstDayOfWeek = firstDay.getDay();
-                firstDayOfWeek = firstDayOfWeek === 0 ? 6 : firstDayOfWeek - 1;
-                
-                // Добавляем пустые ячейки для дней до первого дня месяца
-                for (let i = 0; i < firstDayOfWeek; i++) {
-                    const emptyDay = document.createElement('div');
-                    emptyDay.className = 'day empty-day';
-                    daysGrid.appendChild(emptyDay);
+                if (dayOfWeek === 0 || dayOfWeek === 6) {
+                    dayElement.classList.add('weekend');
                 }
                 
-                // Добавляем дни месяца
-                for (let day = 1; day <= daysInMonth; day++) {
-                    const dayElement = document.createElement('div');
-                    dayElement.className = 'day';
-                    
-                    const dayNumber = document.createElement('div');
-                    dayNumber.className = 'day-number';
-                    dayNumber.textContent = day;
-                    dayElement.appendChild(dayNumber);
-                    
-                    const dayNote = document.createElement('div');
-                    dayNote.className = 'day-note';
-                    
-                    // Проверяем, есть ли заметка для этого дня
-                    const dateKey = `2026-${month+1}-${day}`;
-                    if (notes[dateKey]) {
-                        dayNote.textContent = notes[dateKey];
-                        dayElement.classList.add('has-note');
-                    }
-                    
-                    dayElement.appendChild(dayNote);
-                    
-                    // Определяем выходные дни
-                    const currentDate = new Date(2026, month, day);
-                    const dayOfWeek = currentDate.getDay();
-                    
-                    if (dayOfWeek === 0 || dayOfWeek === 6) {
-                        dayElement.classList.add('weekend');
-                    }
-                    
-                    // Проверяем, является ли день сегодняшним (для демонстрации)
-                    const today = new Date();
-                    if (today.getFullYear() === 2026 && today.getMonth() === month && today.getDate() === day) {
-                        dayElement.classList.add('current-day');
-                    }
-                    
-                    // Добавляем обработчик клика для открытия модального окна
-                    dayElement.addEventListener('click', () => openNoteModal(month, day));
-                    
-                    daysGrid.appendChild(dayElement);
+                // Проверяем, является ли день сегодняшним (для демонстрации)
+                const today = new Date();
+                if (today.getFullYear() === 2026 && today.getMonth() === month && today.getDate() === day) {
+                    dayElement.classList.add('current-day');
                 }
                 
-                monthContainer.appendChild(daysGrid);
-                yearContainer.appendChild(monthContainer);
+                daysGrid.appendChild(dayElement);
             }
-        }
-        
-        // Открытие модального окна для заметки
-        function openNoteModal(month, day) {
-            currentDate = `2026-${month+1}-${day}`;
-            document.getElementById('modalDate').textContent = `Заметка на ${day} ${monthNames[month]} 2026`;
-            document.getElementById('noteText').value = notes[currentDate] || '';
-            document.getElementById('noteModal').style.display = 'flex';
-        }
-        
-        // Закрытие модального окна
-        function closeModal() {
-            document.getElementById('noteModal').style.display = 'none';
-        }
-        
-        // Сохранение заметки
-        function saveNote() {
-            if (currentDate) {
-                notes[currentDate] = document.getElementById('noteText').value.trim();
-                localStorage.setItem(NOTES_DATA_KEY, JSON.stringify(notes));
-                updateDayDisplay(currentDate);
-                closeModal();
-            }
-        }
-        
-        // Удаление заметки
-        function deleteNote() {
-            if (currentDate && notes[currentDate]) {
-                delete notes[currentDate];
-                localStorage.setItem(NOTES_DATA_KEY, JSON.stringify(notes));
-                updateDayDisplay(currentDate);
-                closeModal();
-            }
-        }
-        
-        // Обновление отображения дня
-        function updateDayDisplay(dateKey) {
-            const [year, month, day] = dateKey.split('-').map(Number);
-            const dayElements = document.querySelectorAll('.day');
             
-            for (let dayElement of dayElements) {
-                const dayNumberElement = dayElement.querySelector('.day-number');
-                if (dayNumberElement && parseInt(dayNumberElement.textContent) === day) {
-                    const monthHeader = dayElement.closest('.month-container').querySelector('.month-header');
-                    if (monthHeader.textContent === monthNames[month-1]) {
-                        const dayNoteElement = dayElement.querySelector('.day-note');
-                        
-                        if (notes[dateKey]) {
-                            dayNoteElement.textContent = notes[dateKey];
-                            dayElement.classList.add('has-note');
-                        } else {
-                            dayNoteElement.textContent = '';
-                            dayElement.classList.remove('has-note');
-                        }
-                        break;
-                    }
-                }
-            }
-        }
-        
-        // Управление пользователями
-        function toggleUserList() {
-            const userList = document.getElementById('userList');
-            userList.style.display = userList.style.display === 'none' ? 'block' : 'none';
-            if (userList.style.display === 'block') {
-                updateUsersList();
-            }
-        }
-        
-        function updateUsersList() {
-            const usersContainer = document.getElementById('usersContainer');
-            usersContainer.innerHTML = '';
+            // Добавляем сетку дней в контейнер месяца
+            monthContainer.appendChild(daysGrid);
             
-            authorizedUsers.forEach(user => {
-                if (user !== 'admin') {
-                    const userItem = document.createElement('div');
-                    userItem.className = 'user-item';
-                    userItem.innerHTML = `
-                        <span>Пользователь: ${user}</span>
-                        <button class="remove-user" data-user="${user}">Удалить</button>
-                    `;
-                    usersContainer.appendChild(userItem);
-                }
-            });
-            
-            // Добавляем обработчики для кнопок удаления
-            document.querySelectorAll('.remove-user').forEach(button => {
-                button.addEventListener('click', function() {
-                    const userToRemove = this.getAttribute('data-user');
-                    removeUser(userToRemove);
-                });
-            });
-        }
-        
-        function removeUser(user) {
-            authorizedUsers = authorizedUsers.filter(u => u !== user);
-            localStorage.setItem(AUTHORIZED_USERS_KEY, JSON.stringify(authorizedUsers));
-            updateUsersList();
-            alert(`Пользователь "${user}" удален`);
-        }
-        
-        function addNewUser() {
-            const newUser = prompt('Введите пароль для нового пользователя:');
-            if (newUser) {
-                if (authorizedUsers.includes(newUser)) {
-                    alert('Пользователь с таким паролем уже существует!');
-                } else {
-                    authorizedUsers.push(newUser);
-                    localStorage.setItem(AUTHORIZED_USERS_KEY, JSON.stringify(authorizedUsers));
-                    updateUsersList();
-                    alert('Пользователь добавлен!');
-                }
-            }
-        }
-        
-        function changeAdminPassword() {
-            const newPassword = prompt('Введите новый пароль администратора:');
-            if (newPassword) {
-                adminPassword = newPassword;
-                localStorage.setItem(ADMIN_PASSWORD_KEY, newPassword);
-                alert('Пароль администратора изменен!');
-            }
-        }
-        
-        function exportData() {
-            const dataStr = JSON.stringify(notes, null, 2);
-            const dataBlob = new Blob([dataStr], {type: 'application/json'});
-            const url = URL.createObjectURL(dataBlob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = 'planner_data_2026.json';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            URL.revokeObjectURL(url);
+            // Добавляем контейнер месяца в годовой контейнер
+            yearContainer.appendChild(monthContainer);
         }
     </script>
 </body>
 </html>
-```
-
-                
